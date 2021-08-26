@@ -1,0 +1,747 @@
+openapi: 3.0.2
+info:
+  title: MAS Open Api
+  version: '1.0'
+paths:
+  /users/{userId}/shift-status:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridShiftStatus
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+              - ACTIVE
+              - INACTIVE
+        required: true
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users/{userId}/tasks/complete-quality-inspection:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridTasksCompleteQualityInspection
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityInspectionResult'
+        required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users/{userId}/tasks/complete-quality-confirmation:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridTasksCompleteQualityConfirmation
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityConfirmationResult'
+        required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users/{userId}/tasks/complete-working-instruction:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridTasksCompleteWorkingInstruction
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkingInstructionResult'
+        required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users/{userId}/tasks/complete-confirmation:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridTasksCompleteConfirmation
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteTaskRequest'
+        required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users/{userId}/tasks/complete-scan-data-matrix:
+    post:
+      tags:
+      - mas
+      operationId: postUsersUseridTasksCompleteScanDataMatrix
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScanDataMatrixResult'
+        required: true
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'Invalid value for: body'
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    QualityInspectionResult:
+      oneOf:
+      - $ref: '#/components/schemas/FailedQualityInspectionResult'
+      - $ref: '#/components/schemas/SuccessQualityInspectionResult'
+    FailedQualityInspectionResult:
+      required:
+      - taskId
+      - status
+      - reason
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        reason:
+          type: string
+    SuccessQualityInspectionResult:
+      required:
+      - taskId
+      - status
+      - report
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        report:
+          $ref: '#/components/schemas/QualityInspectionReport'
+    QualityInspectionReport:
+      oneOf:
+      - $ref: '#/components/schemas/QualityInspectionProcess'
+      - $ref: '#/components/schemas/QualityInspectionProduct'
+    QualityInspectionProcess:
+      required:
+      - timestamp
+      - id
+      - qaItemStatus
+      - scenarioId
+      - taskId
+      - taskTitle
+      - taskDescription
+      - defectList
+      - type
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        id:
+          type: string
+        qaItemStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - DEFECT
+        scenarioId:
+          type: string
+        taskId:
+          type: string
+        taskTitle:
+          type: string
+        taskDescription:
+          type: string
+        pictureUrl:
+          type: string
+        pictureTitle:
+          type: string
+        defectList:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectReport'
+        type:
+          type: string
+          enum:
+          - QUALITY_INSPECTION_PROCESS
+    DefectReport:
+      required:
+      - id
+      - code
+      - title
+      - priority
+      - formInputs
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        title:
+          type: string
+        priority:
+          $ref: '#/components/schemas/DefectPriority'
+        formInputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectReportInput'
+        defectForm:
+          $ref: '#/components/schemas/FilledDefectForm'
+    DefectPriority:
+      required:
+      - name
+      - rank
+      type: object
+      properties:
+        name:
+          type: string
+        rank:
+          type: integer
+          enum:
+          - 0
+          - 1
+          - 2
+    DefectReportInput:
+      required:
+      - id
+      - label
+      - units
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        units:
+          type: string
+    FilledDefectForm:
+      required:
+      - images
+      - inputs
+      type: object
+      properties:
+        comment:
+          type: string
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectImage'
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectInfo'
+    DefectImage:
+      required:
+      - original
+      - thumbnail
+      type: object
+      properties:
+        original:
+          type: string
+        thumbnail:
+          type: string
+    DefectInfo:
+      required:
+      - id
+      - label
+      - units
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        units:
+          type: string
+        value:
+          type: number
+    QualityInspectionProduct:
+      required:
+      - timestamp
+      - id
+      - qaItemStatus
+      - scenarioId
+      - taskId
+      - taskTitle
+      - taskDescription
+      - defectList
+      - partName
+      - partNumber
+      - instanceId
+      - orderId
+      - type
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        id:
+          type: string
+        qaItemStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - DEFECT
+        scenarioId:
+          type: string
+        taskId:
+          type: string
+        taskTitle:
+          type: string
+        taskDescription:
+          type: string
+        pictureUrl:
+          type: string
+        pictureTitle:
+          type: string
+        defectList:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectReport'
+        partName:
+          type: string
+        partNumber:
+          type: string
+        instanceId:
+          type: string
+        orderId:
+          type: string
+        type:
+          type: string
+          enum:
+          - QUALITY_INSPECTION_PRODUCT
+    QualityConfirmationResult:
+      oneOf:
+      - $ref: '#/components/schemas/FailedQualityConfirmationResult'
+      - $ref: '#/components/schemas/SuccessQualityConfirmationResult'
+    FailedQualityConfirmationResult:
+      required:
+      - taskId
+      - status
+      - reason
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        reason:
+          type: string
+    SuccessQualityConfirmationResult:
+      required:
+      - taskId
+      - status
+      - report
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        report:
+          $ref: '#/components/schemas/QualityConfirmationReport'
+    QualityConfirmationReport:
+      oneOf:
+      - $ref: '#/components/schemas/QualityConfirmationProcess'
+      - $ref: '#/components/schemas/QualityConfirmationProduct'
+    QualityConfirmationProcess:
+      required:
+      - timestamp
+      - id
+      - scenarioId
+      - taskId
+      - qaItemStatus
+      - images
+      - type
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        id:
+          type: string
+        scenarioId:
+          type: string
+        taskId:
+          type: string
+        qaItemStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - DEFECT
+          - REWORK
+        comment:
+          type: string
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectImage'
+        type:
+          type: string
+          enum:
+          - QUALITY_CONFIRMATION_PROCESS
+    QualityConfirmationProduct:
+      required:
+      - timestamp
+      - id
+      - scenarioId
+      - taskId
+      - qaItemStatus
+      - images
+      - partName
+      - partNumber
+      - instanceId
+      - orderId
+      - type
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        id:
+          type: string
+        scenarioId:
+          type: string
+        taskId:
+          type: string
+        qaItemStatus:
+          type: string
+          enum:
+          - SUCCESS
+          - DEFECT
+          - REWORK
+        comment:
+          type: string
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefectImage'
+        partName:
+          type: string
+        partNumber:
+          type: string
+        instanceId:
+          type: string
+        orderId:
+          type: string
+        type:
+          type: string
+          enum:
+          - QUALITY_CONFIRMATION_PRODUCT
+    WorkingInstructionResult:
+      required:
+      - taskId
+      - status
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        instanceId:
+          type: string
+        measurements:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeasurementResult'
+          minItems: 1
+    MeasurementResult:
+      required:
+      - id
+      - label
+      - uom
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        uom:
+          type: string
+        value:
+          type: number
+          format: double
+    CompleteTaskRequest:
+      required:
+      - taskId
+      - status
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+    ScanDataMatrixResult:
+      oneOf:
+      - $ref: '#/components/schemas/FailedScanDataMatrix'
+      - $ref: '#/components/schemas/SuccessScanDataMatrix'
+    FailedScanDataMatrix:
+      required:
+      - taskId
+      - status
+      - reason
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        reason:
+          type: string
+    SuccessScanDataMatrix:
+      required:
+      - taskId
+      - status
+      type: object
+      properties:
+        taskId:
+          type: string
+        status:
+          type: string
+          enum:
+          - SUCCEED
+          - FAILED
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanItemResult'
+    ScanItemResult:
+      oneOf:
+      - $ref: '#/components/schemas/ScanGiaiResult'
+      - $ref: '#/components/schemas/ScanGtinResultBatch'
+      - $ref: '#/components/schemas/ScanGtinResultSerial'
+      - $ref: '#/components/schemas/ScanProductIdResultBatch'
+      - $ref: '#/components/schemas/ScanProductIdResultSerial'
+    ScanGiaiResult:
+      required:
+      - value
+      - type
+      type: object
+      properties:
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - GIAI
+    ScanGtinResultBatch:
+      required:
+      - value
+      - batch_id
+      - quantity
+      - uom
+      - tracking_by
+      - type
+      type: object
+      properties:
+        value:
+          type: string
+        batch_id:
+          type: string
+        quantity:
+          type: number
+          minimum: 0.0
+        uom:
+          type: string
+          minLength: 1
+        tracking_by:
+          type: string
+          enum:
+          - BATCH
+        type:
+          type: string
+          enum:
+          - GTIN
+    ScanGtinResultSerial:
+      required:
+      - value
+      - instances
+      - tracking_by
+      - type
+      type: object
+      properties:
+        value:
+          type: string
+        instances:
+          type: array
+          items:
+            type: string
+        tracking_by:
+          type: string
+          enum:
+          - SERIAL
+        type:
+          type: string
+          enum:
+          - GTIN
+    ScanProductIdResultBatch:
+      required:
+      - value
+      - batch_id
+      - quantity
+      - uom
+      - tracking_by
+      - type
+      type: object
+      properties:
+        value:
+          type: string
+        batch_id:
+          type: string
+        quantity:
+          type: number
+          minimum: 0.0
+        uom:
+          type: string
+          minLength: 1
+        tracking_by:
+          type: string
+          enum:
+          - BATCH
+        type:
+          type: string
+          enum:
+          - PRODUCT_ID
+    ScanProductIdResultSerial:
+      required:
+      - value
+      - instances
+      - tracking_by
+      - type
+      type: object
+      properties:
+        value:
+          type: string
+        instances:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        tracking_by:
+          type: string
+          enum:
+          - SERIAL
+        type:
+          type: string
+          enum:
+          - PRODUCT_ID

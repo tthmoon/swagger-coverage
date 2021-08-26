@@ -1,0 +1,22 @@
+---
+openapi: "3.0.1"
+servers:
+- url: "mas.kursakov.dev1.cluster.robo.arrival.co"
+paths:
+  /users/{USER_ID}:
+    get:
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        required: true
+        example: "472d8d5c-77cf-49f5-8d2c-9f3b5aa6ba40"
+      - name: "Accept"
+        in: "header"
+        example: "*/*"
+      - name: "Content-Type"
+        in: "header"
+        example: "application/json"
+      responses:
+        "200":
+          content:
+            application/json: {}

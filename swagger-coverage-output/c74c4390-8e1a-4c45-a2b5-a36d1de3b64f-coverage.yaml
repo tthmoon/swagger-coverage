@@ -1,0 +1,27 @@
+---
+openapi: "3.0.1"
+servers:
+- url: "mas.kursakov.dev1.cluster.robo.arrival.co"
+paths:
+  /users/{USER_ID}/tasks/complete-confirmation:
+    post:
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        required: true
+        example: "1a9290bf-b90c-41e5-8490-511e65255591"
+      - name: "Accept"
+        in: "header"
+        example: "*/*"
+      - name: "Content-Type"
+        in: "header"
+        example: "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              exampleSetFlag: false
+      responses:
+        "404":
+          content:
+            application/json: {}

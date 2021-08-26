@@ -1,0 +1,79 @@
+menu.summary=Summary
+menu.operations=Operations details
+menu.tags=Tags details
+menu.condition=Conditions details
+menu.generation=Generation info
+
+common.state.full=Full
+common.state.partial=Partial
+common.state.empty=Empty
+common.state.no_call=No call
+common.state.deprecated=Deprecated
+
+operations.all=All
+operations.full=Full
+operations.partial=Partial
+operations.empty=Empty
+operations.no_call=No call
+operations.missed=Missed
+operations.deprecated=Deprecated
+
+summary.operations=Operations coverage summary
+summary.operations.all=All operations
+summary.operations.no_call=Operations without calls
+summary.operations.missed=Missed request
+
+summary.conditions=Conditions coverage summary
+summary.conditions.total=Total
+summary.conditions.covered=Covered
+summary.conditions.uncovered=Uncovered
+
+summary.tags=Tags coverage summary
+summary.tags.all=All tags
+summary.tags.no_call=Tags without calls
+
+badged.full=Full coverage
+badged.partial=Partial coverage
+badged.empty=Empty coverage
+
+details.operation.calls=calls
+details.operation.no_data=No data
+details.operation.status=Response status
+details.operation.parameters=Parameters
+details.operation.parameter.type=Type
+details.operation.parameter.name=Name
+details.operation.parameter.value=Value
+details.conditionlist.name=Condition name
+details.conditionlist.details=Details
+details.conditionprogress.postfix=condition covered
+
+details.tag.operations=operations
+details.condition.operation=Operation name
+details.condition.conditionname=Condition name
+details.condition.details=Details
+
+generation.configuration=Configuration
+generation.parsed_file_count=Parsed result files
+generation.time=Generation time
+generation.result_file_created_interval=Result file create interval
+generation.report.date=Generation report date
+
+predicate.ParameterValueConditionPredicate.name=All parameter values
+predicate.ParameterValueConditionPredicate.description=Verification that the method is called with all parameters described in the enum
+predicate.NotOnlyParameterListValueConditionPredicate.name=Values not only from the list
+predicate.NotOnlyParameterListValueConditionPredicate.description = Verify that the method was called with a value that is not described in the parameter enum
+predicate.DefaultBodyConditionPredicate.name = Request Body Availability
+predicate.DefaultBodyConditionPredicate.description = Verify that the request body was not empty
+predicate.DefaultStatusConditionPredicate.name = Response Status
+predicate.DefaultStatusConditionPredicate.description = Check that there is an answer with the http status described in responses
+predicate.DefaultParameterConditionPredicate.name = Check parameter value
+predicate.DefaultParameterConditionPredicate.description = Check that the parameter is empty or not empty
+predicate.FullStatusConditionPredicate.name = Only the described statuses
+predicate.FullStatusConditionPredicate.description = Check that no status was received that was not described
+
+predicate.DefaultPropertyConditionPredicate.name = Check property value
+predicate.DefaultPropertyConditionPredicate.description = Check that the property is empty or not empty
+predicate.PropertyValueConditionPredicate.name = All property values
+predicate.PropertyValueConditionPredicate.description = Verification that the method is called with all properties described in the enum
+predicate.PropertyValueNotOnlyConditionPredicate.name = Values not only from the list
+predicate.PropertyValueNotOnlyConditionPredicate.description = Verify that the method was called with a value that is not described in the property enum

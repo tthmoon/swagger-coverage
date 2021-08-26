@@ -1,0 +1,23 @@
+---
+openapi: "3.0.1"
+servers:
+- url: "blackboard.kursakov.dev1.cluster.robo.arrival.co"
+paths:
+  /v2/sendData:
+    post:
+      parameters:
+      - name: "Accept"
+        in: "header"
+        example: "*/*"
+      - name: "Content-Type"
+        in: "header"
+        example: "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              exampleSetFlag: false
+      responses:
+        "200":
+          content:
+            text/plain; charset=UTF-8: {}

@@ -1,0 +1,31 @@
+---
+openapi: "3.0.1"
+servers:
+- url: "mas.kursakov.dev1.cluster.robo.arrival.co"
+paths:
+  /tasks/{USER_ID}/{TASK_TYPE}:
+    post:
+      parameters:
+      - name: "USER_ID"
+        in: "path"
+        required: true
+        example: "a22b093d-cc05-4094-a4af-53826d875430"
+      - name: "TASK_TYPE"
+        in: "path"
+        required: true
+        example: "scan_data_matrix_operation"
+      - name: "Accept"
+        in: "header"
+        example: "*/*"
+      - name: "Content-Type"
+        in: "header"
+        example: "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              exampleSetFlag: false
+      responses:
+        "200":
+          content:
+            application/json: {}
